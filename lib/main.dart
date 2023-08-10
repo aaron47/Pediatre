@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -206,119 +207,401 @@ class _PhysiologicalConstantsWidgetState
   // ];
 
   // CONSTANTES PHYSIOLOGIQUES
-  TextEditingController grController = TextEditingController();
-  TextEditingController gbController = TextEditingController();
-  TextEditingController vgmController = TextEditingController();
-  TextEditingController cmhController = TextEditingController();
-  TextEditingController hbController = TextEditingController();
-  TextEditingController pnController = TextEditingController();
-  TextEditingController lymphoController = TextEditingController();
-  TextEditingController eosinoController = TextEditingController();
-  TextEditingController monoController = TextEditingController();
-  TextEditingController basoController = TextEditingController();
-  TextEditingController plaqController = TextEditingController();
-  TextEditingController ldhController = TextEditingController();
-  TextEditingController cpkController = TextEditingController();
-  TextEditingController caController = TextEditingController();
-  TextEditingController naController = TextEditingController();
-  TextEditingController kController = TextEditingController();
-  TextEditingController clController = TextEditingController();
-  TextEditingController hco3Controller = TextEditingController();
-  TextEditingController t3Controller = TextEditingController();
-  TextEditingController t4Controller = TextEditingController();
-  TextEditingController osteocalController = TextEditingController();
-  TextEditingController paIsoOsseuxController = TextEditingController();
-  TextEditingController glycemieController = TextEditingController();
-  TextEditingController cholesterolController = TextEditingController();
-  TextEditingController ldlController = TextEditingController();
-  TextEditingController hdlController = TextEditingController();
-  TextEditingController triglyceridesController = TextEditingController();
-  TextEditingController pthController = TextEditingController();
-  TextEditingController azotemieController = TextEditingController();
-  TextEditingController creatininemieController = TextEditingController();
-  TextEditingController acideUriqueController = TextEditingController();
-  TextEditingController transaminasesSgotController = TextEditingController();
-  TextEditingController sgptController = TextEditingController();
-  TextEditingController vs12Controller = TextEditingController();
-  TextEditingController hbGlyqueeController = TextEditingController();
-  TextEditingController ca1553Controller = TextEditingController();
-  TextEditingController ceaController = TextEditingController();
-  TextEditingController ca199Controller = TextEditingController();
-  TextEditingController ca125Controller = TextEditingController();
-  TextEditingController psaController = TextEditingController();
+  TextEditingController grController = TextEditingController(text: "0.0");
+  TextEditingController gbController = TextEditingController(text: "0.0");
+  TextEditingController vgmController = TextEditingController(text: "0.0");
+  TextEditingController cmhController = TextEditingController(text: "0");
+  TextEditingController hbController = TextEditingController(text: "0");
+  TextEditingController pnController = TextEditingController(text: "0");
+  TextEditingController lymphoController = TextEditingController(text: "0");
+  TextEditingController eosinoController = TextEditingController(text: "0");
+  TextEditingController monoController = TextEditingController(text: "0");
+  TextEditingController basoController = TextEditingController(text: "0");
+  TextEditingController plaqController = TextEditingController(text: "0");
+  TextEditingController ldhController = TextEditingController(text: "0");
+  TextEditingController cpkController = TextEditingController(text: "0");
+  TextEditingController caController = TextEditingController(text: "0");
+  TextEditingController naController = TextEditingController(text: "0");
+  TextEditingController kController = TextEditingController(text: "0");
+  TextEditingController clController = TextEditingController(text: "0");
+  TextEditingController hco3Controller = TextEditingController(text: "0");
+  TextEditingController tshController = TextEditingController(text: "0");
+  TextEditingController t3Controller = TextEditingController(text: "0");
+  TextEditingController t4Controller = TextEditingController(text: "0");
+  TextEditingController osteocalController = TextEditingController(text: "0");
+  TextEditingController paIsoOsseuxController =
+      TextEditingController(text: "0");
+  TextEditingController glycemieController = TextEditingController(text: "0");
+  TextEditingController cholesterolController =
+      TextEditingController(text: "0");
+  TextEditingController ldlController = TextEditingController(text: "0");
+  TextEditingController hdlController = TextEditingController(text: "0");
+  TextEditingController triglyceridesController =
+      TextEditingController(text: "0");
+  TextEditingController pthController = TextEditingController(text: "0");
+  TextEditingController azotemieController = TextEditingController(text: "0");
+  TextEditingController creatininemieController =
+      TextEditingController(text: "0");
+  TextEditingController acideUriqueController =
+      TextEditingController(text: "0");
+  TextEditingController transaminasesSgotController =
+      TextEditingController(text: "0");
+  TextEditingController sgptController = TextEditingController(text: "0");
+  TextEditingController vs12Controller = TextEditingController(text: "0");
+  TextEditingController hbGlyqueeController = TextEditingController(text: "0");
+  TextEditingController ca1553Controller = TextEditingController(text: "0");
+  TextEditingController ceaController = TextEditingController(text: "0");
+  TextEditingController ca199Controller = TextEditingController(text: "0");
+  TextEditingController ca125Controller = TextEditingController(text: "0");
+  TextEditingController psaController = TextEditingController(text: "0");
 
-  // INDEXES
-  TextEditingController rgController = TextEditingController();
-  TextEditingController rgtController = TextEditingController();
-  TextEditingController cataAnaController = TextEditingController();
-  TextEditingController cortisolController = TextEditingController();
-  TextEditingController actSurrController = TextEditingController();
-  TextEditingController indSurrController = TextEditingController();
-  TextEditingController aromatisationController = TextEditingController();
-  TextEditingController permissiviteController = TextEditingController();
-  TextEditingController solThyrController = TextEditingController();
-  TextEditingController ilController = TextEditingController();
-  TextEditingController structureFnController = TextEditingController();
-  TextEditingController fractionOestrogController = TextEditingController();
-  TextEditingController rapAndrogeneController = TextEditingController();
-  TextEditingController plaqLymphoController = TextEditingController();
-  TextEditingController histamineController = TextEditingController();
-  TextEditingController nisController = TextEditingController();
-  TextEditingController nilController = TextEditingController();
-  TextEditingController mlController = TextEditingController();
-  TextEditingController mpController = TextEditingController();
-  TextEditingController starterController = TextEditingController();
-  TextEditingController txCataController = TextEditingController();
-  TextEditingController txAnaController = TextEditingController();
-  TextEditingController activiteMetaboliqueController = TextEditingController();
-  TextEditingController ldhCpkController = TextEditingController();
-  TextEditingController indAdaptogeneController = TextEditingController();
-  TextEditingController bMshAMshController = TextEditingController();
-  TextEditingController t3T4Controller = TextEditingController();
-  TextEditingController histaminePotentielleController =
-      TextEditingController();
-  TextEditingController acthController = TextEditingController();
-  TextEditingController aldosteroneController = TextEditingController();
-  TextEditingController serotoninePeriphController = TextEditingController();
-  TextEditingController hyperInsulinismeController = TextEditingController();
-  TextEditingController resistanceInsulineController = TextEditingController();
-  TextEditingController efficaciteImmuneController = TextEditingController();
-  TextEditingController energieSIController = TextEditingController();
-  TextEditingController congestionController = TextEditingController();
-  TextEditingController stressOxydatifController = TextEditingController();
-  TextEditingController radicauxLibresController = TextEditingController();
-  TextEditingController indRendementThyroidienController =
-      TextEditingController();
-  TextEditingController activitesTissulairesThyroideController =
-      TextEditingController();
-  TextEditingController indTrhController = TextEditingController();
-  TextEditingController indImplicationThyroideController =
-      TextEditingController();
-  TextEditingController impThyroSomatoController = TextEditingController();
-  TextEditingController implicFolliculaireController = TextEditingController();
-  TextEditingController indActivMetabOestrogeneController =
-      TextEditingController();
-  TextEditingController androgeneMetaboliqueController =
-      TextEditingController();
-  TextEditingController indActivTissulaireOestrogeneController =
-      TextEditingController();
-  TextEditingController indexCroissanceController = TextEditingController();
-  TextEditingController indexTurnOverController = TextEditingController();
-  TextEditingController indAntiCroissanceController = TextEditingController();
-  TextEditingController fractMetabOestrogenesController =
-      TextEditingController();
-  TextEditingController progesteroneController = TextEditingController();
-  TextEditingController indSomatostatineController = TextEditingController();
-  TextEditingController indProlactineController = TextEditingController();
-  TextEditingController fractureMembranaireController = TextEditingController();
+  double RG = 0.0;
+  double RGT = 0.0;
+  double CATA_ANA = 0.0;
+  double CORTISOL = 0.0;
+  double ACTIV_SURR = 0.0;
+  double IND_SURR = 0.0;
+  double AROMATISATION = 0.0;
+  double PERMISSIVITE = 0.0;
+  double SOL_THYR = 0.0;
+  double IL = 0.0;
+  double STRUCTURE_FN = 0.0;
+  double FRACTION_OESTROG = 0.0;
+  double RAP_ANDROGENE = 0.0;
+  double PLAQ_LMYPHO = 0.0;
+  double HISTAMINE = 0.0;
+  double NIS = 0.0;
+  double NIL = 0.0;
+  double ML = 0.0;
+  double MP = 0.0;
+  double STARTER = 0.0;
+  double TX_CATA = 0.0;
+  double TX_ANA = 0.0;
+  double ACTIVITE_METABOLIQUE = 0.0;
+  double LDH_CPK = 0.0;
+  double IND_ADAPTOGENE = 0.0;
+  double B_MSH_A_MSH = 0.0;
+  double T3_T4 = 0.0;
+  double HISTAMINE_POTENTIELLE = 0.0;
+  double ACTH = 0.0;
+  double ALDOSTERONE = 0.0;
+  double SEROTONINE_PERIPHERIQUE = 0.0;
+  double RESISTANCE_INSULINE = 0.0;
+  double EFFICACITE_IMMUNE = 0.0;
+  double ENERGIE_SI = 0.0;
+  double CONGESTION = 0.0;
+  double STRESS_OXYDATIF = 0.0;
+  double RADICAUX_LIBRES = 0.0;
+  double IND_RENDEMENT_THYROIDIEN = 0.0;
+  double ACTIVITES_TISSULARIES_THYROIDE = 0.0;
+  double IND_TRH = 0.0;
+  double IND_IMPLICATION_THYROIDE = 0.0;
+  double IMP_THYREO_SOMATO = 0.0;
+  double IMPLIC_FOLLICULAIRE = 0.0;
+  double IND_ACTIV_METAB_OESTROGENE = 0.0;
+  double ANDROGENE_METABOLIQUE = 0.0;
+  double IND_ACTIV_TISSULAIRE_OESTROGENE = 0.0;
+  double FRACT_METAB_OESTROGENES = 0.0;
+  double PROGESTERONE = 0.0;
+  double IND_SOMATOSTATINE = 0.0;
+  double IND_PROLACTINE = 0.0;
+  double FRACTURE_MEMBRANAIRE = 0.0;
 
   @override
   void initState() {
     super.initState();
   }
 
-  String calculateConclusion(String value1, String value2, String formula) {
-    return "";
+  void calculateConclusion(String formule) {
+    double GR = double.parse(grController.text) * 0.001;
+    double GB = double.parse(gbController.text);
+    double PN = double.parse(pnController.text);
+    double LMYPHO = double.parse(lymphoController.text);
+    double PLAQ = double.parse(plaqController.text) * 0.001;
+
+    switch (formule) {
+      case "GR/GB":
+        setState(() {
+          RG = GR / GB;
+        });
+        break;
+      case "PN/LMYPHO":
+        setState(() {
+          RGT = PN / LMYPHO;
+        });
+        break;
+      case "RGT/RG":
+        setState(() {
+          CATA_ANA = RGT / RG;
+        });
+        break;
+      case "Cata-Ana/RA":
+        setState(() {
+          CORTISOL = CATA_ANA / RGT;
+        });
+        break;
+      case "Cata-Ana/RG":
+        setState(() {
+          ACTIV_SURR = CATA_ANA / RG;
+        });
+        break;
+      case "Cortisol/act. surr":
+        setState(() {
+          IND_SURR = CORTISOL / ACTIV_SURR;
+        });
+        break;
+      case "RA/RGxRG":
+        setState(() {
+          AROMATISATION = RGT / (RG * RG);
+        });
+        break;
+      case "RA/RG":
+        setState(() {
+          PERMISSIVITE = RGT / RG;
+        });
+        break;
+      case "Mono/Lmypho":
+        setState(() {
+          SOL_THYR = double.parse(monoController.text) / LMYPHO;
+        });
+        break;
+      case "1/CortisolxRGT":
+        setState(() {
+          IL = 1 / (CORTISOL * RGT);
+        });
+        break;
+      case "PN+MONO/EosinoxLympho":
+        setState(() {
+          STRUCTURE_FN = (PN + double.parse(monoController.text)) /
+              (double.parse(eosinoController.text) * LMYPHO);
+        });
+        break;
+      case "PN/Mono":
+        setState(() {
+          FRACTION_OESTROG = PN / double.parse(monoController.text);
+        });
+        break;
+      case "RG/Cortisol":
+        setState(() {
+          RAP_ANDROGENE = RG / CORTISOL;
+        });
+        break;
+      case "PLAQ/LMYPHO":
+        setState(() {
+          PLAQ_LMYPHO = PLAQ / LMYPHO;
+        });
+        break;
+      case "RAxEosinoxPlq/Activ.surr":
+        setState(() {
+          HISTAMINE =
+              (RGT * double.parse(eosinoController.text) * PLAQ) / ACTIV_SURR;
+        });
+        break;
+      case "EosinoxPlq/Cortisol":
+        setState(() {
+          NIS = double.parse(eosinoController.text) * PLAQ / CORTISOL;
+        });
+        break;
+      case "N.I.S/Histamine":
+        setState(() {
+          NIL = NIS / HISTAMINE;
+        });
+        break;
+      case "PlqxPNxHb/30xGB":
+        setState(() {
+          ML = (PLAQ * PN * double.parse(hbController.text)) /
+              (30 * double.parse(gbController.text));
+        });
+        break;
+      case "Plq/60xGR":
+        setState(() {
+          MP = PLAQ / (60 * GR);
+        });
+        break;
+      case "ML/MP":
+        setState(() {
+          STARTER = ML / MP;
+        });
+        break;
+      case "LDH/Activ.surr":
+        setState(() {
+          TX_CATA = double.parse(ldhController.text) / ACTIV_SURR;
+        });
+        break;
+      case "TxCata/Cata-ana":
+        setState(() {
+          TX_ANA = TX_CATA / CATA_ANA;
+        });
+        break;
+      case "(Txcata+txana)x100/2.25)":
+        setState(() {
+          ACTIVITE_METABOLIQUE = ((TX_CATA + TX_ANA) * 100) / 2.25;
+        });
+        break;
+      case "LDH/CPK":
+        setState(() {
+          LDH_CPK = double.parse(ldhController.text) /
+              double.parse(cpkController.text);
+        });
+        break;
+      case "K+/Ca++":
+        setState(() {
+          IND_ADAPTOGENE =
+              double.parse(kController.text) / double.parse(caController.text);
+        });
+        break;
+      case "LDH/CPK // K/Ca":
+        setState(() {
+          B_MSH_A_MSH = LDH_CPK / IND_ADAPTOGENE;
+        });
+        break;
+      case "T3/T4":
+        setState(() {
+          T3_T4 =
+              double.parse(t3Controller.text) / double.parse(t4Controller.text);
+        });
+        break;
+      case "Histamine / B MSH / A MSH":
+        setState(() {
+          HISTAMINE_POTENTIELLE = HISTAMINE / B_MSH_A_MSH;
+        });
+        break;
+      case "HistaminePot/plq/lympho":
+        setState(() {
+          ACTH = HISTAMINE_POTENTIELLE / (PLAQ * LMYPHO);
+        });
+        break;
+      case "K x Cortisol / Na+":
+        setState(() {
+          ALDOSTERONE = double.parse(kController.text) *
+              CORTISOL /
+              double.parse(naController.text);
+        });
+        break;
+      case "Cortisol x starter":
+        setState(() {
+          SEROTONINE_PERIPHERIQUE = CORTISOL * STARTER;
+        });
+        break;
+      case "Cortisol x IL x TSH /Fract. Œstrogène":
+        setState(() {
+          RESISTANCE_INSULINE = CORTISOL *
+              IL *
+              double.parse(tshController.text) /
+              FRACTION_OESTROG;
+        });
+        break;
+      case "Eosino x Lympho x IL / Cortisol":
+        setState(() {
+          EFFICACITE_IMMUNE =
+              double.parse(eosinoController.text) * LMYPHO * IL / CORTISOL;
+        });
+        break;
+      case "RA x IL x ACTH":
+        setState(() {
+          ENERGIE_SI = RGT * IL * ACTH;
+        });
+        break;
+      case "IL x NIL /Métabolisme":
+        setState(() {
+          CONGESTION = IL * NIL / ACTIVITE_METABOLIQUE;
+        });
+        break;
+      case "Histamine x T4 x IL x Tx cata":
+        setState(() {
+          STRESS_OXYDATIF =
+              HISTAMINE * double.parse(t4Controller.text) * IL * TX_CATA;
+        });
+        break;
+      case "Cata-ana x RGT x NIL":
+        setState(() {
+          RADICAUX_LIBRES = CATA_ANA * RGT * NIL;
+        });
+        break;
+      case "LDH/CPK // TSH":
+        setState(() {
+          IND_RENDEMENT_THYROIDIEN = LDH_CPK / double.parse(tshController.text);
+        });
+        break;
+      case "LDH/CPK // RGc":
+        setState(() {
+          ACTIVITES_TISSULARIES_THYROIDE = LDH_CPK / RAP_ANDROGENE;
+        });
+        break;
+      case "TSH/T4":
+        setState(() {
+          IND_TRH = double.parse(tshController.text) /
+              double.parse(t4Controller.text);
+        });
+        break;
+      case "CA 199/CEA":
+        setState(() {
+          IMP_THYREO_SOMATO = double.parse(ca199Controller.text) /
+              double.parse(ceaController.text);
+        });
+        break;
+      case "CA 125/CEA":
+        setState(() {
+          IMPLIC_FOLLICULAIRE = double.parse(ca125Controller.text) /
+              double.parse(ceaController.text);
+        });
+        break;
+      case "TSH / Ostéocalcine":
+        setState(() {
+          IND_ACTIV_METAB_OESTROGENE = double.parse(tshController.text) /
+              double.parse(osteocalController.text);
+        });
+        break;
+      case "Oestrogene métab/ RG":
+        setState(() {
+          ANDROGENE_METABOLIQUE = double.parse(tshController.text) /
+              double.parse(osteocalController.text);
+        });
+        break;
+      case "Lympho/ ostéocalcine":
+        setState(() {
+          IND_ACTIV_TISSULAIRE_OESTROGENE =
+              LMYPHO / double.parse(osteocalController.text);
+        });
+        break;
+      case "LDH / Ostéocalcine":
+        setState(() {
+          FRACT_METAB_OESTROGENES = double.parse(tshController.text) /
+              double.parse(osteocalController.text);
+        });
+        break;
+      case "Œstrogène métab/ androg. Surr x RGl":
+        setState(() {
+          PROGESTERONE = double.parse(tshController.text) /
+              double.parse(osteocalController.text);
+        });
+        break;
+      case "TSH x RA x Ostéocalcine/ index croissance":
+        setState(() {
+          IND_SOMATOSTATINE = double.parse(tshController.text) *
+              RGT *
+              double.parse(osteocalController.text);
+        });
+        break;
+      case "TSH x TSH x RA x Iso-os / cata-ana":
+        setState(() {
+          // IND_PROLACTINE = double.parse(tshController.text) *
+          //     double.parse(tshController.text) *
+          //     RGT *
+          //     ISO_OS /
+          //     CATA_ANA;
+        });
+        break;
+      case "40(tx cata + tx ana)/TSH x TSH x Iso-os":
+        // setState(() {
+        //   FRACTURE_MEMBRANAIRE = 40 *
+        //       (CATA_ANA + TX_ANA) /
+        //       (double.parse(tshController.text) *
+        //           double.parse(tshController.text) *
+        //           ISO_OS);
+        // });
+        break;
+    }
   }
 
   @override
@@ -416,7 +699,17 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[0],
+                          // controller: _constantesPhysiologiquesControllers[0],
+                          controller: grController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("GR/GB");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -428,21 +721,7 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('RG')),
-                    DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[0],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    DataCell(Text(RG.toString())),
                     const DataCell(
                       Text(
                         'GR/GB',
@@ -451,25 +730,28 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,8-0,96', style: TextStyle(color: Colors.red))),
-                    DataCell(
-                      Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[0].text,
-                          _indexesControllers[0].text,
-                          'GR/GB',
-                        ),
-                      ),
+                    const DataCell(
+                      Text("CONCLUSION"),
                     ),
                   ],
                 ),
                 DataRow(
                   cells: <DataCell>[
-                    DataCell(Text('GB')),
+                    const DataCell(Text('GB')),
                     DataCell(
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: gbController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("GR/GB");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -480,21 +762,9 @@ class _PhysiologicalConstantsWidgetState
                         ),
                       ),
                     ),
-                    DataCell(Text('RGT')),
+                    const DataCell(Text('RGT')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(RGT.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -504,14 +774,8 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('1,5-2,5', style: TextStyle(color: Colors.red))),
-                    DataCell(
-                      Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
-                      ),
+                    const DataCell(
+                      Text(""),
                     ),
                   ],
                 ),
@@ -522,7 +786,16 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("RGT/RG");
+                            });
+                          },
+                          controller: vgmController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -535,19 +808,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('CATA/ANA')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(CATA_ANA.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -559,13 +820,9 @@ class _PhysiologicalConstantsWidgetState
                       '1,8-3',
                       style: TextStyle(color: Colors.red),
                     )),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -577,7 +834,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: cmhController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Cata-Ana/RA");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -590,19 +852,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('CORTISOL')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(CORTISOL.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -614,13 +864,9 @@ class _PhysiologicalConstantsWidgetState
                       '3-7',
                       style: TextStyle(color: Colors.red),
                     )),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -632,7 +878,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: hbController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Cata-Ana/RG");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -645,19 +896,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ACT SURR')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ACTIV_SURR.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -671,13 +910,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -689,7 +924,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: pnController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("PN/LYMPHO");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -702,19 +942,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND. SURR')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_SURR.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -728,13 +956,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -746,7 +970,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: lymphoController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("PN/LYMPHO");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -759,19 +988,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Aromatisation')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(AROMATISATION.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -785,13 +1002,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -803,7 +1016,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: eosinoController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("RA/RG");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -816,19 +1034,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Permissivité')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(PERMISSIVITE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -842,13 +1048,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -860,7 +1062,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: monoController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Mono/Lympho");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -873,19 +1080,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Sol. Thyr')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(SOL_THYR.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -899,13 +1094,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -917,7 +1108,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: basoController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("1/CortisolxRGT");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -930,19 +1126,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('I.L')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IL.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -956,13 +1140,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -974,7 +1154,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: plaqController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("PN+Mono/EosinoxLympho");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -987,19 +1172,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Structure fn')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(STRUCTURE_FN.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1013,13 +1186,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1031,7 +1200,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: ldhController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("PN/Mono");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1044,19 +1218,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Fraction oestrog.')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(FRACTION_OESTROG.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1070,13 +1232,9 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1088,7 +1246,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: cpkController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("RG/Cortisol");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1101,19 +1264,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Rap. Androgène ')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(RAP_ANDROGENE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1125,13 +1276,9 @@ class _PhysiologicalConstantsWidgetState
                       '0,05-0,09',
                       style: TextStyle(color: Colors.red),
                     )),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1143,7 +1290,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: caController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Plaq/Lympho");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1156,19 +1308,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Plaq/ lympho')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(PLAQ_LMYPHO.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1180,13 +1320,9 @@ class _PhysiologicalConstantsWidgetState
                       '4-10',
                       style: TextStyle(color: Colors.red),
                     )),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1198,7 +1334,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: naController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1211,19 +1352,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Histamine')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(HISTAMINE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1235,13 +1364,9 @@ class _PhysiologicalConstantsWidgetState
                       '20-70',
                       style: TextStyle(color: Colors.red),
                     )),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1253,7 +1378,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: kController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("EosinoxPlq/Cortisol");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1266,19 +1396,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('N.I.S')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(NIS.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1290,13 +1408,9 @@ class _PhysiologicalConstantsWidgetState
                       '20-90',
                       style: TextStyle(color: Colors.red),
                     )),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1308,7 +1422,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: clController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("N.I.S/Histamine");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1321,19 +1440,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('N.I.L')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(NIL.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1343,13 +1450,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,9-1,1', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1361,7 +1464,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: hco3Controller,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("PlqxPNxHb/30xGB");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1374,19 +1482,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('M.L')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ML.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1396,13 +1492,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,85-1,15', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1414,7 +1506,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: tshController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Plq/60xGR");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1427,19 +1524,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('M.P')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(MP.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1449,13 +1534,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,85-1,15', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1467,7 +1548,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: t3Controller,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("ML/MP");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1480,19 +1566,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Starter')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(STARTER.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1502,13 +1576,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,85-1,15', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1520,7 +1590,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: t4Controller,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("LDH/Activ.surr");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1533,19 +1608,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Tx CATA')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(TX_CATA.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1555,13 +1618,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('1,3-1,6', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1573,7 +1632,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: osteocalController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("TxCata/Cata-ana");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1586,19 +1650,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Tx ANA')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(TX_ANA.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1608,13 +1660,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,65-0,8', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1626,7 +1674,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: paIsoOsseuxController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("(Txcata+txana)x100/2.25)");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1639,19 +1692,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Activité Métabolique')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ACTIVITE_METABOLIQUE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1661,13 +1702,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('80-100', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1679,7 +1716,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: glycemieController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("LDH/CPK");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1692,19 +1734,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('LDH/CPK')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(LDH_CPK.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1714,13 +1744,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('3,5-5,5', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1732,7 +1758,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: cholesterolController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("K+/Ca++");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1745,19 +1776,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND. Adaptogene ')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_ADAPTOGENE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1767,13 +1786,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,8-0,9', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1785,7 +1800,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: ldlController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("LDH/CPK // K/Ca");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1798,19 +1818,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('B MSH/ A MSH')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(B_MSH_A_MSH.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1820,13 +1828,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('3,2-4,5', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1838,7 +1842,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: hdlController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("T3/T4");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1851,19 +1860,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('T3/T4')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(T3_T4.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1873,13 +1870,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,2-0,4', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1891,7 +1884,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: triglyceridesController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Histamine / B MSH / A MSH");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1904,19 +1902,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Histamine potentielle ')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(HISTAMINE_POTENTIELLE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1926,13 +1912,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('6-12', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1944,7 +1926,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: pthController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("HistaminePot/plq/lympho");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -1957,19 +1944,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ACTH')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ACTH.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -1979,13 +1954,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('0,7-3 F 0,3-2 H',
                         style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -1997,7 +1968,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: azotemieController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("K x Cortisol / Na+");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2010,19 +1986,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ALDOSTÉRONE')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ALDOSTERONE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2032,13 +1996,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,003-0,1', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2050,7 +2010,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: creatininemieController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Cortisol x starter");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2063,19 +2028,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Sérotonine périphérique')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(SEROTONINE_PERIPHERIQUE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2085,13 +2038,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('1,5-7,5', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2099,35 +2048,14 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('Acide urique')),
-                    DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                    const DataCell(
+                      Text(""),
                     ),
                     const DataCell(Text('Hyper insulinisme')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(
@@ -2151,7 +2079,13 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: transaminasesSgotController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion(
+                                  "Cortisol x IL x TSH /Fract. Œstrogène");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2164,19 +2098,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Résistance insuline')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(RESISTANCE_INSULINE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2186,13 +2108,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,3-5,6+', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2204,7 +2122,13 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: sgptController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion(
+                                  "Eosino x Lympho x IL / Cortisol");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2217,19 +2141,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Efficacité immune')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(EFFICACITE_IMMUNE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2239,13 +2151,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('0,3-24', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2257,7 +2165,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: vs12Controller,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("RA x IL x ACTH");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2270,19 +2183,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Énergie S.I')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ENERGIE_SI.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2292,13 +2193,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('0,018-0,24',
                         style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2310,7 +2207,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: hbGlyqueeController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("IL x NIL /Métabolisme");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2323,19 +2225,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Congestion')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(CONGESTION.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2345,13 +2235,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2363,7 +2249,13 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: ca1553Controller,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion(
+                                  "Histamine x T4 x IL x Tx cata");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2376,19 +2268,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Stress oxydatif')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(STRESS_OXYDATIF.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2397,13 +2277,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2415,7 +2291,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: ceaController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("Cata-ana x RGT x NIL");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2428,19 +2309,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Radicaux libres')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(RADICAUX_LIBRES.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2450,13 +2319,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('2,4-8,25', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2468,7 +2333,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: ca199Controller,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("LDH/CPK // TSH");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2481,19 +2351,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind. Rendement thyroidien')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_RENDEMENT_THYROIDIEN.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2503,13 +2361,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('2-3 F 1,5-2,5 H',
                         style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2521,7 +2375,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: ca125Controller,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("LDH/CPK // RGc");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2534,19 +2393,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Activités tissulaires thyroide')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ACTIVITES_TISSULARIES_THYROIDE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2556,13 +2403,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(
                         Text('1,4-3,7', style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2574,7 +2417,12 @@ class _PhysiologicalConstantsWidgetState
                       SizedBox(
                         width: 75,
                         child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
+                          controller: psaController,
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("TSH/T4");
+                            });
+                          },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.symmetric(
@@ -2587,19 +2435,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND TRH')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_TRH.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2608,13 +2444,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2622,36 +2454,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('IND Implication thyroide')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_IMPLICATION_THYROIDE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2660,13 +2471,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2674,36 +2481,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Imp. Thyréo somato')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IMP_THYREO_SOMATO.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2712,13 +2498,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2726,36 +2508,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Implic folliculaire')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IMPLIC_FOLLICULAIRE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2764,13 +2525,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2778,36 +2535,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Ind activ metab oestrogene')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_ACTIV_METAB_OESTROGENE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2817,13 +2553,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('0,2-0,4 F 0,15-0,25 H',
                         style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2831,36 +2563,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Androgene métabolique')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(ANDROGENE_METABOLIQUE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2870,13 +2581,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('0,2-0,25 F 0,2-0,3 H',
                         style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2884,36 +2591,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Ind activ tissulaire œstrogène')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_ACTIV_TISSULAIRE_OESTROGENE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -2922,13 +2608,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -2936,35 +2618,17 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Index de croissance')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(
@@ -2974,14 +2638,8 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
-                      Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
-                      ),
+                    const DataCell(
+                      Text(""),
                     ),
                   ],
                 ),
@@ -2991,32 +2649,14 @@ class _PhysiologicalConstantsWidgetState
                     DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Index turn over')),
                     DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(
@@ -3028,11 +2668,7 @@ class _PhysiologicalConstantsWidgetState
                     const DataCell(Text('')),
                     DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -3043,32 +2679,14 @@ class _PhysiologicalConstantsWidgetState
                     DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Ind. Anti croissance')),
                     DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(
@@ -3080,11 +2698,7 @@ class _PhysiologicalConstantsWidgetState
                     const DataCell(Text('')),
                     DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -3092,36 +2706,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Fract. Métab des œstrogènes')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(FRACT_METAB_OESTROGENES.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -3130,13 +2723,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -3144,36 +2733,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('progestérone')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(PROGESTERONE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -3183,13 +2751,9 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('4-8F 3-6 H',
                         style: TextStyle(color: Colors.red))),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -3197,36 +2761,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Ind somatostatine')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_SOMATOSTATINE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -3235,13 +2778,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -3249,36 +2788,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Ind prolactine')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(IND_PROLACTINE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -3287,13 +2805,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],
@@ -3301,36 +2815,15 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          controller: _constantesPhysiologiquesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
+                        child: Text(""),
                       ),
                     ),
                     const DataCell(Text('Fracture membranaire')),
                     DataCell(
-                      SizedBox(
-                        width: 75,
-                        child: TextFormField(
-                          controller: _indexesControllers[1],
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
-                      ),
+                      Text(FRACTURE_MEMBRANAIRE.toString()),
                     ),
                     const DataCell(
                       Text(
@@ -3339,13 +2832,9 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       Text(
-                        calculateConclusion(
-                          _constantesPhysiologiquesControllers[1].text,
-                          _indexesControllers[1].text,
-                          'PN/LYMPHO',
-                        ),
+                        "",
                       ),
                     ),
                   ],

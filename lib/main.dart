@@ -258,6 +258,7 @@ class _PhysiologicalConstantsWidgetState
   double RG = 0.0;
   double RGT = 0.0;
   double CATA_ANA = 0.0;
+  double RA_VAL = 0.0;
   double CORTISOL = 0.0;
   double ACTIV_SURR = 0.0;
   double IND_SURR = 0.0;
@@ -318,6 +319,8 @@ class _PhysiologicalConstantsWidgetState
     double PN = double.parse(pnController.text);
     double LMYPHO = double.parse(lymphoController.text);
     double PLAQ = double.parse(plaqController.text) * 0.001;
+    double RA = double.parse(eosinoController.text) / double.parse(monoController.text);
+    double ISO_OS = double.parse(paIsoOsseuxController.text);
 
     switch (formule) {
       case "GR/GB":
@@ -325,7 +328,7 @@ class _PhysiologicalConstantsWidgetState
           RG = GR / GB;
         });
         break;
-      case "PN/LMYPHO":
+      case "PN/LYMPHO":
         setState(() {
           RGT = PN / LMYPHO;
         });
@@ -335,9 +338,14 @@ class _PhysiologicalConstantsWidgetState
           CATA_ANA = RGT / RG;
         });
         break;
+      case "Eosino/Mono":
+        setState(() {
+          RA_VAL = RA;
+        });
+        break;
       case "Cata-Ana/RA":
         setState(() {
-          CORTISOL = CATA_ANA / RGT;
+          CORTISOL = CATA_ANA / RA;
         });
         break;
       case "Cata-Ana/RG":
@@ -352,12 +360,12 @@ class _PhysiologicalConstantsWidgetState
         break;
       case "RA/RGxRG":
         setState(() {
-          AROMATISATION = RGT / (RG * RG);
+          AROMATISATION = RA / (RG * RG);
         });
         break;
       case "RA/RG":
         setState(() {
-          PERMISSIVITE = RGT / RG;
+          PERMISSIVITE = RA / RG;
         });
         break;
       case "Mono/Lmypho":
@@ -394,7 +402,7 @@ class _PhysiologicalConstantsWidgetState
       case "RAxEosinoxPlq/Activ.surr":
         setState(() {
           HISTAMINE =
-              (RGT * double.parse(eosinoController.text) * PLAQ) / ACTIV_SURR;
+              (RA * double.parse(eosinoController.text) * PLAQ) / ACTIV_SURR;
         });
         break;
       case "EosinoxPlq/Cortisol":
@@ -468,7 +476,7 @@ class _PhysiologicalConstantsWidgetState
         break;
       case "HistaminePot/plq/lympho":
         setState(() {
-          ACTH = HISTAMINE_POTENTIELLE / (PLAQ * LMYPHO);
+          ACTH = HISTAMINE_POTENTIELLE / (PLAQ / LMYPHO);
         });
         break;
       case "K x Cortisol / Na+":
@@ -499,7 +507,7 @@ class _PhysiologicalConstantsWidgetState
         break;
       case "RA x IL x ACTH":
         setState(() {
-          ENERGIE_SI = RGT * IL * ACTH;
+          ENERGIE_SI = RA * IL * ACTH;
         });
         break;
       case "IL x NIL /Métabolisme":
@@ -579,27 +587,27 @@ class _PhysiologicalConstantsWidgetState
       case "TSH x RA x Ostéocalcine/ index croissance":
         setState(() {
           IND_SOMATOSTATINE = double.parse(tshController.text) *
-              RGT *
+              RA *
               double.parse(osteocalController.text);
         });
         break;
       case "TSH x TSH x RA x Iso-os / cata-ana":
         setState(() {
-          // IND_PROLACTINE = double.parse(tshController.text) *
-          //     double.parse(tshController.text) *
-          //     RGT *
-          //     ISO_OS /
-          //     CATA_ANA;
+          IND_PROLACTINE = double.parse(tshController.text) *
+              double.parse(tshController.text) *
+              RA *
+              ISO_OS /
+              CATA_ANA;
         });
         break;
       case "40(tx cata + tx ana)/TSH x TSH x Iso-os":
-        // setState(() {
-        //   FRACTURE_MEMBRANAIRE = 40 *
-        //       (CATA_ANA + TX_ANA) /
-        //       (double.parse(tshController.text) *
-        //           double.parse(tshController.text) *
-        //           ISO_OS);
-        // });
+        setState(() {
+          FRACTURE_MEMBRANAIRE = 40 *
+              (CATA_ANA + TX_ANA) /
+              (double.parse(tshController.text) *
+                  double.parse(tshController.text) *
+                  ISO_OS);
+        });
         break;
     }
   }
@@ -630,67 +638,6 @@ class _PhysiologicalConstantsWidgetState
                         style: TextStyle(color: Colors.red))),
                 DataColumn(label: Text('Conclusions')),
               ],
-              // rows: List<DataRow>.generate(
-              //   _constantesPhysiologiques.length, // Total number of rows
-              //   (int index) => DataRow(
-              //     cells: <DataCell>[
-              //       DataCell(Text(_constantesPhysiologiques[index])),
-              //       DataCell(
-              //         SizedBox(
-              //           width: 75, // Adjust the width as needed
-              //           child: TextFormField(
-              //             controller:
-              //                 _constantesPhysiologiquesControllers[index],
-              //             decoration: const InputDecoration(
-              //               border: OutlineInputBorder(),
-              //               contentPadding: EdgeInsets.symmetric(
-              //                   vertical: 10, horizontal: 12),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       // Empty column for input
-              //       DataCell(Text(_indexes[index])),
-              //       DataCell(
-              //         SizedBox(
-              //           width: 75, // Adjust the width as needed
-              //           child: TextFormField(
-              //             controller: _indexesControllers[index],
-              //             decoration: const InputDecoration(
-              //               border: OutlineInputBorder(),
-              //               contentPadding: EdgeInsets.symmetric(
-              //                   vertical: 10, horizontal: 12),
-              //             ),
-              //           ),
-              //         ),
-              //       ), // Empty column for input
-              //       DataCell(Text(
-              //         _formulesIndex[index],
-              //         style: const TextStyle(color: Colors.red),
-              //       )),
-              //       DataCell(Text('Normal Values ${index + 1}')),
-              //       DataCell(
-              //         Text(
-              //           calculateConclusion(
-              //             _constantesPhysiologiquesControllers[index].text,
-              //             _indexesControllers[index].text,
-              //             _formulesIndex[index],
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // rows: List<DataRow>.generate(
-              //   _dataCellList.length,
-              //   (int index) => DataRow(
-              //     cells: <DataCell>[
-              //       DataCell(Text(_dataCellList[index])),
-              //       const DataCell(TextField()), // Empty column for input
-              //     ],
-              //   ),
-              // ),
-
               rows: <DataRow>[
                 DataRow(
                   cells: <DataCell>[
@@ -818,6 +765,54 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text(
                       '1,8-3',
+                      style: TextStyle(color: Colors.red),
+                    )),
+                    const DataCell(
+                      Text(
+                        "",
+                      ),
+                    ),
+                  ],
+                ),
+                DataRow(
+                  cells: <DataCell>[
+                    const DataCell(Text('')),
+                    DataCell(
+                      SizedBox(
+                        width: 75,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              calculateConclusion("RGT/RG");
+                            });
+                          },
+                          controller: vgmController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const DataCell(Text('R.A')),
+                    DataCell(
+                      Text(CATA_ANA.toString()),
+                    ),
+                    const DataCell(
+                      Text(
+                        'Eosino/Mono',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const DataCell(Text(
+                      '0.25-',
                       style: TextStyle(color: Colors.red),
                     )),
                     const DataCell(

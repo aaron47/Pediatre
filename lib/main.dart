@@ -254,6 +254,8 @@ class _PhysiologicalConstantsWidgetState
   TextEditingController ca199Controller = TextEditingController(text: "0");
   TextEditingController ca125Controller = TextEditingController(text: "0");
   TextEditingController psaController = TextEditingController(text: "0");
+  TextEditingController structureFnController =
+      TextEditingController(text: "0");
 
   double RG = 0.0;
   double RGT = 0.0;
@@ -307,13 +309,14 @@ class _PhysiologicalConstantsWidgetState
   double IND_SOMATOSTATINE = 0.0;
   double IND_PROLACTINE = 0.0;
   double FRACTURE_MEMBRANAIRE = 0.0;
+  double INDEX_CROISSANCE = 0.0;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void calculateConclusion(String formule) {
+  void calculateConclusion() {
     double GR = double.parse(grController.text) * 0.001;
     double GB = double.parse(gbController.text);
     double PN = double.parse(pnController.text);
@@ -323,295 +326,90 @@ class _PhysiologicalConstantsWidgetState
         double.parse(eosinoController.text) / double.parse(monoController.text);
     double ISO_OS = double.parse(paIsoOsseuxController.text);
 
-    switch (formule) {
-      case "GR/GB":
-        setState(() {
-          RG = GR / GB;
-        });
-        break;
-      case "PN/LYMPHO":
-        setState(() {
-          RGT = PN / LMYPHO;
-        });
-        break;
-      case "RGT/RG":
-        setState(() {
-          CATA_ANA = RGT / RG;
-        });
-        break;
-      case "Eosino/Mono":
-        setState(() {
-          RA_VAL = double.parse(eosinoController.text) /
-              double.parse(monoController.text);
-        });
-        break;
-      case "Cata-Ana/RA":
-        setState(() {
-          CORTISOL = CATA_ANA / RA;
-        });
-        break;
-      case "Cata-Ana/RG":
-        setState(() {
-          ACTIV_SURR = CATA_ANA / RG;
-        });
-        break;
-      case "Cortisol/act. surr":
-        setState(() {
-          IND_SURR = CORTISOL / ACTIV_SURR;
-        });
-        break;
-      case "RA/RGxRG":
-        setState(() {
-          AROMATISATION = RA / (RG * RG);
-        });
-        break;
-      case "RA/RG":
-        setState(() {
-          PERMISSIVITE = RA / RG;
-        });
-        break;
-      case "Mono/Lmypho":
-        setState(() {
-          SOL_THYR = double.parse(monoController.text) / LMYPHO;
-        });
-        break;
-      case "1/CortisolxRGT":
-        setState(() {
-          IL = 1 / (CORTISOL * RGT);
-        });
-        break;
-      case "PN+MONO/EosinoxLympho":
-        setState(() {
-          STRUCTURE_FN = (PN + double.parse(monoController.text)) /
-              (double.parse(eosinoController.text) * LMYPHO);
-        });
-        break;
-      case "PN/Mono":
-        setState(() {
-          FRACTION_OESTROG = PN / double.parse(monoController.text);
-        });
-        break;
-      case "RG/Cortisol":
-        setState(() {
-          RAP_ANDROGENE = RG / CORTISOL;
-        });
-        break;
-      case "PLAQ/LMYPHO":
-        setState(() {
-          PLAQ_LMYPHO = PLAQ / LMYPHO;
-        });
-        break;
-      case "RAxEosinoxPlq/Activ.surr":
-        setState(() {
-          HISTAMINE =
-              (RA * double.parse(eosinoController.text) * PLAQ) / ACTIV_SURR;
-        });
-        break;
-      case "EosinoxPlq/Cortisol":
-        setState(() {
-          NIS = double.parse(eosinoController.text) * PLAQ / CORTISOL;
-        });
-        break;
-      case "N.I.S/Histamine":
-        setState(() {
-          NIL = NIS / HISTAMINE;
-        });
-        break;
-      case "PlqxPNxHb/30xGB":
-        setState(() {
-          ML = (PLAQ * PN * double.parse(hbController.text)) /
-              (30 * double.parse(gbController.text));
-        });
-        break;
-      case "Plq/60xGR":
-        setState(() {
-          MP = PLAQ / (60 * GR);
-        });
-        break;
-      case "ML/MP":
-        setState(() {
-          STARTER = ML / MP;
-        });
-        break;
-      case "LDH/Activ.surr":
-        setState(() {
-          TX_CATA = double.parse(ldhController.text) / ACTIV_SURR;
-        });
-        break;
-      case "TxCata/Cata-ana":
-        setState(() {
-          TX_ANA = TX_CATA / CATA_ANA;
-        });
-        break;
-      case "(Txcata+txana)x100/2.25)":
-        setState(() {
-          ACTIVITE_METABOLIQUE = ((TX_CATA + TX_ANA) * 100) / 2.25;
-        });
-        break;
-      case "LDH/CPK":
-        setState(() {
-          LDH_CPK = double.parse(ldhController.text) /
-              double.parse(cpkController.text);
-        });
-        break;
-      case "K+/Ca++":
-        setState(() {
-          IND_ADAPTOGENE =
-              double.parse(kController.text) / double.parse(caController.text);
-        });
-        break;
-      case "LDH/CPK // K/Ca":
-        setState(() {
-          B_MSH_A_MSH = LDH_CPK / IND_ADAPTOGENE;
-        });
-        break;
-      case "T3/T4":
-        setState(() {
-          T3_T4 =
-              double.parse(t3Controller.text) / double.parse(t4Controller.text);
-        });
-        break;
-      case "Histamine / B MSH / A MSH":
-        setState(() {
-          HISTAMINE_POTENTIELLE = HISTAMINE / B_MSH_A_MSH;
-        });
-        break;
-      case "HistaminePot/plq/lympho":
-        setState(() {
-          ACTH = HISTAMINE_POTENTIELLE / (PLAQ / LMYPHO);
-        });
-        break;
-      case "K x Cortisol / Na+":
-        setState(() {
-          ALDOSTERONE = double.parse(kController.text) *
-              CORTISOL /
-              double.parse(naController.text);
-        });
-        break;
-      case "Cortisol x starter":
-        setState(() {
-          SEROTONINE_PERIPHERIQUE = CORTISOL * STARTER;
-        });
-        break;
-      case "Cortisol x IL x TSH /Fract. Œstrogène":
-        setState(() {
-          RESISTANCE_INSULINE = CORTISOL *
-              IL *
-              double.parse(tshController.text) /
-              FRACTION_OESTROG;
-        });
-        break;
-      case "Eosino x Lympho x IL / Cortisol":
-        setState(() {
-          EFFICACITE_IMMUNE =
-              double.parse(eosinoController.text) * LMYPHO * IL / CORTISOL;
-        });
-        break;
-      case "RA x IL x ACTH":
-        setState(() {
-          ENERGIE_SI = RA * IL * ACTH;
-        });
-        break;
-      case "IL x NIL /Métabolisme":
-        setState(() {
-          CONGESTION = IL * NIL / ACTIVITE_METABOLIQUE;
-        });
-        break;
-      case "Histamine x T4 x IL x Tx cata":
-        setState(() {
-          STRESS_OXYDATIF =
-              HISTAMINE * double.parse(t4Controller.text) * IL * TX_CATA;
-        });
-        break;
-      case "Cata-ana x RGT x NIL":
-        setState(() {
-          RADICAUX_LIBRES = CATA_ANA * RGT * NIL;
-        });
-        break;
-      case "LDH/CPK // TSH":
-        setState(() {
-          IND_RENDEMENT_THYROIDIEN = LDH_CPK / double.parse(tshController.text);
-        });
-        break;
-      case "LDH/CPK // RGc":
-        setState(() {
-          ACTIVITES_TISSULARIES_THYROIDE = LDH_CPK / RAP_ANDROGENE;
-        });
-        break;
-      case "TSH/T4":
-        setState(() {
-          IND_TRH = double.parse(tshController.text) /
-              double.parse(t4Controller.text);
-        });
-        break;
-      case "CA 199/CEA":
-        setState(() {
-          IMP_THYREO_SOMATO = double.parse(ca199Controller.text) /
-              double.parse(ceaController.text);
-        });
-        break;
-      case "CA 125/CEA":
-        setState(() {
-          IMPLIC_FOLLICULAIRE = double.parse(ca125Controller.text) /
-              double.parse(ceaController.text);
-        });
-        break;
-      case "TSH / Ostéocalcine":
-        setState(() {
-          IND_ACTIV_METAB_OESTROGENE = double.parse(tshController.text) /
-              double.parse(osteocalController.text);
-        });
-        break;
-      case "Oestrogene métab/ RG":
-        setState(() {
-          ANDROGENE_METABOLIQUE = double.parse(tshController.text) /
-              double.parse(osteocalController.text);
-        });
-        break;
-      case "Lympho/ ostéocalcine":
-        setState(() {
-          IND_ACTIV_TISSULAIRE_OESTROGENE =
-              LMYPHO / double.parse(osteocalController.text);
-        });
-        break;
-      case "LDH / Ostéocalcine":
-        setState(() {
-          FRACT_METAB_OESTROGENES = double.parse(tshController.text) /
-              double.parse(osteocalController.text);
-        });
-        break;
-      case "Œstrogène métab/ androg. Surr x RGl":
-        setState(() {
-          PROGESTERONE = double.parse(tshController.text) /
-              double.parse(osteocalController.text);
-        });
-        break;
-      case "TSH x RA x Ostéocalcine/ index croissance":
-        setState(() {
-          IND_SOMATOSTATINE = double.parse(tshController.text) *
-              RA *
-              double.parse(osteocalController.text);
-        });
-        break;
-      case "TSH x TSH x RA x Iso-os / cata-ana":
-        setState(() {
-          IND_PROLACTINE = double.parse(tshController.text) *
+    setState(() {
+      RG = GR / GB;
+      RGT = PN / LMYPHO;
+      CATA_ANA = RGT / RG;
+      RA_VAL = double.parse(eosinoController.text) /
+          double.parse(monoController.text);
+      CORTISOL = CATA_ANA / RA;
+      ACTIV_SURR = CATA_ANA / RG;
+      IND_SURR = CORTISOL / ACTIV_SURR;
+      AROMATISATION = RA / (RG * RG);
+      PERMISSIVITE = RA / RG;
+      SOL_THYR = double.parse(monoController.text) / LMYPHO;
+      IL = 1 / (CORTISOL * RGT);
+      STRUCTURE_FN = (PN + double.parse(monoController.text)) /
+          (double.parse(eosinoController.text) * LMYPHO);
+      FRACTION_OESTROG = PN / double.parse(monoController.text);
+      RAP_ANDROGENE = RG / CORTISOL;
+      PLAQ_LMYPHO = PLAQ / LMYPHO;
+      HISTAMINE =
+          (RA * double.parse(eosinoController.text) * PLAQ) / ACTIV_SURR;
+      NIS = double.parse(eosinoController.text) * PLAQ / CORTISOL;
+      NIL = NIS / HISTAMINE;
+      ML = (PLAQ * PN * double.parse(hbController.text)) /
+          (30 * double.parse(gbController.text));
+      MP = PLAQ / (60 * GR);
+      STARTER = ML / MP;
+      TX_CATA = double.parse(ldhController.text) / ACTIV_SURR;
+      TX_ANA = TX_CATA / CATA_ANA;
+      ACTIVITE_METABOLIQUE = ((TX_CATA + TX_ANA) * 100) / 2.25;
+      LDH_CPK =
+          double.parse(ldhController.text) / double.parse(cpkController.text);
+      IND_ADAPTOGENE = double.parse(kController.text) /
+          (double.parse(caController.text) / 2);
+      B_MSH_A_MSH = LDH_CPK / IND_ADAPTOGENE;
+      T3_T4 = double.parse(t3Controller.text) / double.parse(t4Controller.text);
+      HISTAMINE_POTENTIELLE = HISTAMINE / B_MSH_A_MSH;
+      ACTH = HISTAMINE_POTENTIELLE / (PLAQ / LMYPHO);
+      ALDOSTERONE = double.parse(kController.text) *
+          CORTISOL /
+          double.parse(naController.text);
+      SEROTONINE_PERIPHERIQUE = CORTISOL * STARTER;
+      RESISTANCE_INSULINE =
+          CORTISOL * IL * double.parse(tshController.text) / FRACTION_OESTROG;
+      EFFICACITE_IMMUNE =
+          double.parse(eosinoController.text) * LMYPHO * IL / CORTISOL;
+      ENERGIE_SI = RA * IL * ACTH;
+      CONGESTION = IL * NIL / ACTIVITE_METABOLIQUE;
+      STRESS_OXYDATIF =
+          HISTAMINE * double.parse(t4Controller.text) * IL * TX_CATA;
+      RADICAUX_LIBRES = CATA_ANA * RGT * NIL;
+      IND_RENDEMENT_THYROIDIEN = LDH_CPK / double.parse(tshController.text);
+      ACTIVITES_TISSULARIES_THYROIDE = LDH_CPK / RAP_ANDROGENE;
+      IND_TRH =
+          double.parse(tshController.text) / double.parse(t4Controller.text);
+      IND_IMPLICATION_THYROIDE = double.parse(ca1553Controller.text) /
+          double.parse(ceaController.text);
+      IMP_THYREO_SOMATO =
+          double.parse(ca199Controller.text) / double.parse(ceaController.text);
+      IMPLIC_FOLLICULAIRE =
+          double.parse(ca125Controller.text) / double.parse(ceaController.text);
+      IND_ACTIV_METAB_OESTROGENE = double.parse(tshController.text) /
+          double.parse(osteocalController.text);
+      ANDROGENE_METABOLIQUE = double.parse(tshController.text) /
+          double.parse(osteocalController.text);
+      IND_ACTIV_TISSULAIRE_OESTROGENE =
+          LMYPHO / double.parse(osteocalController.text);
+      FRACT_METAB_OESTROGENES = double.parse(tshController.text) /
+          double.parse(osteocalController.text);
+      PROGESTERONE = double.parse(tshController.text) /
+          double.parse(osteocalController.text);
+      IND_SOMATOSTATINE = double.parse(tshController.text) *
+          RA *
+          double.parse(osteocalController.text);
+      IND_PROLACTINE = double.parse(tshController.text) *
+          double.parse(tshController.text) *
+          RA *
+          ISO_OS /
+          CATA_ANA;
+      FRACTURE_MEMBRANAIRE = 40 *
+          (CATA_ANA + TX_ANA) /
+          (double.parse(tshController.text) *
               double.parse(tshController.text) *
-              RA *
-              ISO_OS /
-              CATA_ANA;
-        });
-        break;
-      case "40(tx cata + tx ana)/TSH x TSH x Iso-os":
-        setState(() {
-          FRACTURE_MEMBRANAIRE = 40 *
-              (CATA_ANA + TX_ANA) /
-              (double.parse(tshController.text) *
-                  double.parse(tshController.text) *
-                  ISO_OS);
-        });
-        break;
-    }
+              ISO_OS);
+    });
   }
 
   @override
@@ -643,6 +441,35 @@ class _PhysiologicalConstantsWidgetState
               rows: <DataRow>[
                 DataRow(
                   cells: <DataCell>[
+                    const DataCell(Text('')),
+                    const DataCell(
+                      SizedBox(
+                        width: 75,
+                      ),
+                    ),
+                    const DataCell(Text('Structure Fonction')),
+                    DataCell(
+                      Text(STRUCTURE_FN.toStringAsFixed(2)),
+                    ),
+                    const DataCell(
+                      Text(
+                        'PN + Mono / Eosino x lympho',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const DataCell(Text(
+                      '0.5-1.5',
+                      style: TextStyle(color: Colors.red),
+                    )),
+                    const DataCell(
+                      Text(
+                        "",
+                      ),
+                    ),
+                  ],
+                ),
+                DataRow(
+                  cells: <DataCell>[
                     const DataCell(Text('GR')),
                     DataCell(
                       SizedBox(
@@ -656,64 +483,7 @@ class _PhysiologicalConstantsWidgetState
                           ],
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -727,7 +497,7 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('RG')),
-                    DataCell(Text(RG.toString())),
+                    DataCell(Text(RG.toStringAsFixed(2))),
                     const DataCell(
                       Text(
                         'GR/GB',
@@ -737,7 +507,7 @@ class _PhysiologicalConstantsWidgetState
                     const DataCell(
                         Text('0,8-0,96', style: TextStyle(color: Colors.red))),
                     const DataCell(
-                      Text("CONCLUSION"),
+                      Text(""),
                     ),
                   ],
                 ),
@@ -755,64 +525,7 @@ class _PhysiologicalConstantsWidgetState
                           ],
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -827,7 +540,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('RGT')),
                     DataCell(
-                      Text(RGT.toString()),
+                      Text(RGT.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -855,64 +568,7 @@ class _PhysiologicalConstantsWidgetState
                           ],
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           controller: vgmController,
@@ -928,7 +584,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('CATA/ANA')),
                     DataCell(
-                      Text(CATA_ANA.toString()),
+                      Text(CATA_ANA.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -950,90 +606,14 @@ class _PhysiologicalConstantsWidgetState
                 DataRow(
                   cells: <DataCell>[
                     const DataCell(Text('')),
-                    DataCell(
+                    const DataCell(
                       SizedBox(
                         width: 75,
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
-                            });
-                          },
-                          controller: vgmController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                     const DataCell(Text('R.A')),
                     DataCell(
-                      Text(RA_VAL.toString()),
+                      Text(RA_VAL.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1062,64 +642,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: cmhController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1134,7 +657,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('CORTISOL')),
                     DataCell(
-                      Text(CORTISOL.toString()),
+                      Text(CORTISOL.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1163,64 +686,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: hbController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1235,7 +701,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ACT SURR')),
                     DataCell(
-                      Text(ACTIV_SURR.toString()),
+                      Text(ACTIV_SURR.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1266,64 +732,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: pnController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1338,7 +747,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND. SURR')),
                     DataCell(
-                      Text(IND_SURR.toString()),
+                      Text(IND_SURR.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1369,64 +778,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: lymphoController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1441,7 +793,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Aromatisation')),
                     DataCell(
-                      Text(AROMATISATION.toString()),
+                      Text(AROMATISATION.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1472,64 +824,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: eosinoController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1544,7 +839,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Permissivité')),
                     DataCell(
-                      Text(PERMISSIVITE.toString()),
+                      Text(PERMISSIVITE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1575,64 +870,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: monoController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1647,7 +885,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Sol. Thyr')),
                     DataCell(
-                      Text(SOL_THYR.toString()),
+                      Text(SOL_THYR.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1678,64 +916,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: basoController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1750,7 +931,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('I.L')),
                     DataCell(
-                      Text(IL.toString()),
+                      Text(IL.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1781,64 +962,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: plaqController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1884,64 +1008,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: ldhController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -1956,7 +1023,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Fraction oestrog.')),
                     DataCell(
-                      Text(FRACTION_OESTROG.toString()),
+                      Text(FRACTION_OESTROG.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -1987,64 +1054,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: cpkController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2059,7 +1069,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Rap. Androgène ')),
                     DataCell(
-                      Text(RAP_ANDROGENE.toString()),
+                      Text(RAP_ANDROGENE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2088,64 +1098,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: caController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2160,7 +1113,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Plaq/ lympho')),
                     DataCell(
-                      Text(PLAQ_LMYPHO.toString()),
+                      Text(PLAQ_LMYPHO.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2189,64 +1142,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: naController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2261,7 +1157,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Histamine')),
                     DataCell(
-                      Text(HISTAMINE.toString()),
+                      Text(HISTAMINE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2290,64 +1186,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: kController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2362,7 +1201,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('N.I.S')),
                     DataCell(
-                      Text(NIS.toString()),
+                      Text(NIS.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2391,64 +1230,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: clController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2463,7 +1245,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('N.I.L')),
                     DataCell(
-                      Text(NIL.toString()),
+                      Text(NIL.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2490,64 +1272,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: hco3Controller,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2562,7 +1287,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('M.L')),
                     DataCell(
-                      Text(ML.toString()),
+                      Text(ML.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2589,64 +1314,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: tshController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2661,7 +1329,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('M.P')),
                     DataCell(
-                      Text(MP.toString()),
+                      Text(MP.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2688,64 +1356,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: t3Controller,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2760,7 +1371,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Starter')),
                     DataCell(
-                      Text(STARTER.toString()),
+                      Text(STARTER.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2787,64 +1398,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: t4Controller,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2859,7 +1413,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Tx CATA')),
                     DataCell(
-                      Text(TX_CATA.toString()),
+                      Text(TX_CATA.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2886,64 +1440,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: osteocalController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -2958,7 +1455,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Tx ANA')),
                     DataCell(
-                      Text(TX_ANA.toString()),
+                      Text(TX_ANA.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -2985,64 +1482,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: paIsoOsseuxController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3057,7 +1497,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Activité Métabolique')),
                     DataCell(
-                      Text(ACTIVITE_METABOLIQUE.toString()),
+                      Text(ACTIVITE_METABOLIQUE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3084,64 +1524,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: glycemieController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3156,7 +1539,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('LDH/CPK')),
                     DataCell(
-                      Text(LDH_CPK.toString()),
+                      Text(LDH_CPK.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3183,64 +1566,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: cholesterolController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3255,7 +1581,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND. Adaptogene ')),
                     DataCell(
-                      Text(IND_ADAPTOGENE.toString()),
+                      Text(IND_ADAPTOGENE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3282,64 +1608,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: ldlController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3354,7 +1623,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('B MSH/ A MSH')),
                     DataCell(
-                      Text(B_MSH_A_MSH.toString()),
+                      Text(B_MSH_A_MSH.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3381,64 +1650,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: hdlController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3453,7 +1665,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('T3/T4')),
                     DataCell(
-                      Text(T3_T4.toString()),
+                      Text(T3_T4.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3480,64 +1692,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: triglyceridesController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3552,7 +1707,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Histamine potentielle ')),
                     DataCell(
-                      Text(HISTAMINE_POTENTIELLE.toString()),
+                      Text(HISTAMINE_POTENTIELLE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3579,64 +1734,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: pthController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3651,7 +1749,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ACTH')),
                     DataCell(
-                      Text(ACTH.toString()),
+                      Text(ACTH.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3678,64 +1776,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: azotemieController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3750,7 +1791,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ALDOSTÉRONE')),
                     DataCell(
-                      Text(ALDOSTERONE.toString()),
+                      Text(ALDOSTERONE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3777,64 +1818,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: creatininemieController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3849,7 +1833,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Sérotonine périphérique')),
                     DataCell(
-                      Text(SEROTONINE_PERIPHERIQUE.toString()),
+                      Text(SEROTONINE_PERIPHERIQUE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -3903,64 +1887,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: transaminasesSgotController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -3975,7 +1902,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Résistance insuline')),
                     DataCell(
-                      Text(RESISTANCE_INSULINE.toString()),
+                      Text(RESISTANCE_INSULINE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4002,64 +1929,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: sgptController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4074,7 +1944,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Efficacité immune')),
                     DataCell(
-                      Text(EFFICACITE_IMMUNE.toString()),
+                      Text(EFFICACITE_IMMUNE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4101,64 +1971,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: vs12Controller,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4173,7 +1986,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Énergie S.I')),
                     DataCell(
-                      Text(ENERGIE_SI.toString()),
+                      Text(ENERGIE_SI.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4200,64 +2013,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: hbGlyqueeController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4272,7 +2028,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Congestion')),
                     DataCell(
-                      Text(CONGESTION.toString()),
+                      Text(CONGESTION.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4299,64 +2055,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: ca1553Controller,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4371,7 +2070,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Stress oxydatif')),
                     DataCell(
-                      Text(STRESS_OXYDATIF.toString()),
+                      Text(STRESS_OXYDATIF.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4397,64 +2096,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: ceaController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4469,7 +2111,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Radicaux libres')),
                     DataCell(
-                      Text(RADICAUX_LIBRES.toString()),
+                      Text(RADICAUX_LIBRES.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4496,64 +2138,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: ca199Controller,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4568,7 +2153,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind. Rendement thyroidien')),
                     DataCell(
-                      Text(IND_RENDEMENT_THYROIDIEN.toString()),
+                      Text(IND_RENDEMENT_THYROIDIEN.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4595,64 +2180,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: ca125Controller,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4667,7 +2195,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Activités tissulaires thyroide')),
                     DataCell(
-                      Text(ACTIVITES_TISSULARIES_THYROIDE.toString()),
+                      Text(ACTIVITES_TISSULARIES_THYROIDE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4694,64 +2222,7 @@ class _PhysiologicalConstantsWidgetState
                           controller: psaController,
                           onChanged: (value) {
                             setState(() {
-                              calculateConclusion("GR/GB");
-                              calculateConclusion("PN/LYMPHO");
-                              calculateConclusion("RGT/RG");
-                              calculateConclusion("Eosino/Mono");
-                              calculateConclusion("Cata-Ana/RA");
-                              calculateConclusion("Cata-Ana/RG");
-                              calculateConclusion("Cortisol/act. surr");
-                              calculateConclusion("RA/RGxRG");
-                              calculateConclusion("RA/RG");
-                              calculateConclusion("Mono/Lmypho");
-                              calculateConclusion("1/CortisolxRGT");
-                              calculateConclusion("PN+MONO/EosinoxLympho");
-                              calculateConclusion("PN/Mono");
-                              calculateConclusion("RG/Cortisol");
-                              calculateConclusion("PLAQ/LMYPHO");
-                              calculateConclusion("RAxEosinoxPlq/Activ.surr");
-                              calculateConclusion("EosinoxPlq/Cortisol");
-                              calculateConclusion("N.I.S/Histamine");
-                              calculateConclusion("PlqxPNxHb/30xGB");
-                              calculateConclusion("Plq/60xGR");
-                              calculateConclusion("ML/MP");
-                              calculateConclusion("LDH/Activ.surr");
-                              calculateConclusion("TxCata/Cata-ana");
-                              calculateConclusion("(Txcata+txana)x100/2.25)");
-                              calculateConclusion("LDH/CPK");
-                              calculateConclusion("K+/Ca++");
-                              calculateConclusion("LDH/CPK // K/Ca");
-                              calculateConclusion("T3/T4");
-                              calculateConclusion("Histamine / B MSH / A MSH");
-                              calculateConclusion("HistaminePot/plq/lympho");
-                              calculateConclusion("K x Cortisol / Na+");
-                              calculateConclusion("Cortisol x starter");
-                              calculateConclusion(
-                                  "Cortisol x IL x TSH /Fract. Œstrogène");
-                              calculateConclusion(
-                                  "Eosino x Lympho x IL / Cortisol");
-                              calculateConclusion("RA x IL x ACTH");
-                              calculateConclusion("IL x NIL /Métabolisme");
-                              calculateConclusion(
-                                  "Histamine x T4 x IL x Tx cata");
-                              calculateConclusion("Cata-ana x RGT x NIL");
-                              calculateConclusion("LDH/CPK // TSH");
-                              calculateConclusion("LDH/CPK // RGc");
-                              calculateConclusion("TSH/T4");
-                              calculateConclusion("CA 199/CEA");
-                              calculateConclusion("CA 125/CEA");
-                              calculateConclusion("TSH / Ostéocalcine");
-                              calculateConclusion("Oestrogene métab/ RG");
-                              calculateConclusion("Lympho/ ostéocalcine");
-                              calculateConclusion("LDH / Ostéocalcine");
-                              calculateConclusion(
-                                  "Œstrogène métab/ androg. Surr x RGl");
-                              calculateConclusion(
-                                  "TSH x RA x Ostéocalcine/ index croissance");
-                              calculateConclusion(
-                                  "TSH x TSH x RA x Iso-os / cata-ana");
-                              calculateConclusion(
-                                  "40(tx cata + tx ana)/TSH x TSH x Iso-os");
+                              calculateConclusion();
                             });
                           },
                           decoration: const InputDecoration(
@@ -4766,7 +2237,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND TRH')),
                     DataCell(
-                      Text(IND_TRH.toString()),
+                      Text(IND_TRH.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4793,7 +2264,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND Implication thyroide')),
                     DataCell(
-                      Text(IND_IMPLICATION_THYROIDE.toString()),
+                      Text(IND_IMPLICATION_THYROIDE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4820,7 +2291,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Imp. Thyréo somato')),
                     DataCell(
-                      Text(IMP_THYREO_SOMATO.toString()),
+                      Text(IMP_THYREO_SOMATO.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4847,7 +2318,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Implic folliculaire')),
                     DataCell(
-                      Text(IMPLIC_FOLLICULAIRE.toString()),
+                      Text(IMPLIC_FOLLICULAIRE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4874,7 +2345,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind activ metab oestrogene')),
                     DataCell(
-                      Text(IND_ACTIV_METAB_OESTROGENE.toString()),
+                      Text(IND_ACTIV_METAB_OESTROGENE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4902,7 +2373,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Androgene métabolique')),
                     DataCell(
-                      Text(ANDROGENE_METABOLIQUE.toString()),
+                      Text(ANDROGENE_METABOLIQUE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -4930,7 +2401,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind activ tissulaire œstrogène')),
                     DataCell(
-                      Text(IND_ACTIV_TISSULAIRE_OESTROGENE.toString()),
+                      Text(IND_ACTIV_TISSULAIRE_OESTROGENE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -5045,7 +2516,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Fract. Métab des œstrogènes')),
                     DataCell(
-                      Text(FRACT_METAB_OESTROGENES.toString()),
+                      Text(FRACT_METAB_OESTROGENES.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -5072,7 +2543,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('progestérone')),
                     DataCell(
-                      Text(PROGESTERONE.toString()),
+                      Text(PROGESTERONE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -5100,7 +2571,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind somatostatine')),
                     DataCell(
-                      Text(IND_SOMATOSTATINE.toString()),
+                      Text(IND_SOMATOSTATINE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -5127,7 +2598,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind prolactine')),
                     DataCell(
-                      Text(IND_PROLACTINE.toString()),
+                      Text(IND_PROLACTINE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(
@@ -5154,7 +2625,7 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Fracture membranaire')),
                     DataCell(
-                      Text(FRACTURE_MEMBRANAIRE.toString()),
+                      Text(FRACTURE_MEMBRANAIRE.toStringAsFixed(2)),
                     ),
                     const DataCell(
                       Text(

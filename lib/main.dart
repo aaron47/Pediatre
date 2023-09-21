@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Application des calculs des indexes',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -350,7 +356,7 @@ class _PhysiologicalConstantsWidgetState
       NIL = NIS / HISTAMINE;
       ML = (PLAQ * PN * double.parse(hbController.text)) /
           (30 * double.parse(gbController.text));
-      MP = PLAQ / (60 * GR);
+      MP = (PLAQ / 0.001) / (60 * GR);
       STARTER = ML / MP;
       TX_CATA = double.parse(ldhController.text) / ACTIV_SURR;
       TX_ANA = TX_CATA / CATA_ANA;
@@ -407,16 +413,38 @@ class _PhysiologicalConstantsWidgetState
       FRACTURE_MEMBRANAIRE = 40 *
           (CATA_ANA + TX_ANA) /
           (double.parse(tshController.text) *
-              double.parse(tshController.text) *
-              ISO_OS);
+              (double.parse(tshController.text) * ISO_OS));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Physiological Constants'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight + 20),
+        // Adjust the height as needed
+        child: AppBar(
+          title: Row(
+            children: [
+              const Text('Nom du patient:'),
+              const SizedBox(width: 10),
+              // Add spacing between text and TextField
+              const Expanded(
+                child: TextField(
+                  style: TextStyle(color: Colors.white),
+                  // Set text color to white
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                    hintText: 'Entrez le nom du patient',
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              // Add spacing between TextField and date
+              Text(DateFormat('dd/MM/yyyy').format(DateTime.now())),
+            ],
+          ),
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -449,11 +477,25 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Structure Fonction')),
                     DataCell(
-                      Text(STRUCTURE_FN.toStringAsFixed(2),
+                      Container(
+                        padding: const EdgeInsets.all(
+                            8.0), // Adjust the padding as needed
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(
+                          STRUCTURE_FN.toStringAsFixed(2),
                           style: TextStyle(
-                              color: STRUCTURE_FN < 0.5 || STRUCTURE_FN > 1.5
-                                  ? Colors.red
-                                  : Colors.green)),
+                              // color: STRUCTURE_FN < 0.5 || STRUCTURE_FN > 1.5
+                              //     ? Colors.red
+                              //     : Colors.green)),
+                              color: STRUCTURE_FN < 0.5
+                                  ? Colors.green
+                                  : STRUCTURE_FN > 1.5
+                                      ? Colors.red
+                                      : Colors.black),
+                        ),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -501,12 +543,21 @@ class _PhysiologicalConstantsWidgetState
                       ),
                     ),
                     const DataCell(Text('RG')),
-                    DataCell(Text(
-                      RG.toStringAsFixed(2),
-                      style: TextStyle(
-                          color: RG < 0.8 || RG > 0.96
-                              ? Colors.red
-                              : Colors.green),
+                    DataCell(Container(
+                      padding: const EdgeInsets.all(
+                          8.0), // Adjust the padding as needed
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black), // Add border
+                      ),
+                      child: Text(
+                        RG.toStringAsFixed(2),
+                        style: TextStyle(
+                            color: RG < 0.8
+                                ? Colors.green.shade700
+                                : RG > 0.96
+                                    ? Colors.red.shade700
+                                    : Colors.black),
+                      ),
                     )),
                     const DataCell(
                       Text(
@@ -550,11 +601,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('RGT')),
                     DataCell(
-                      Text(RGT.toStringAsFixed(2),
-                          style: TextStyle(
-                              color: RGT < 1.5 || RGT > 2.5
-                                  ? Colors.red
-                                  : Colors.green)),
+                      Container(
+                        padding: const EdgeInsets.all(
+                            8.0), // Adjust the padding as needed
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(RGT.toStringAsFixed(2),
+                            style: TextStyle(
+                                color: RGT < 1.5
+                                    ? Colors.green.shade700
+                                    : RGT > 2.5
+                                        ? Colors.red.shade700
+                                        : Colors.black)),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -598,11 +658,19 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('CATA/ANA')),
                     DataCell(
-                      Text(CATA_ANA.toStringAsFixed(2),
-                          style: TextStyle(
-                              color: CATA_ANA < 1.8 || CATA_ANA > 3
-                                  ? Colors.red
-                                  : Colors.green)),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(CATA_ANA.toStringAsFixed(2),
+                            style: TextStyle(
+                                color: CATA_ANA < 1.8
+                                    ? Colors.green.shade700
+                                    : CATA_ANA > 3
+                                        ? Colors.red.shade700
+                                        : Colors.black)),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -631,10 +699,16 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('R.A')),
                     DataCell(
-                      Text(
-                        RA_VAL.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: RA_VAL < 0.25 ? Colors.green : Colors.red,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(
+                          RA_VAL.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: RA_VAL < 0.25 ? Colors.green : Colors.red,
+                          ),
                         ),
                       ),
                     ),
@@ -680,12 +754,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('CORTISOL')),
                     DataCell(
-                      Text(CORTISOL.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: CORTISOL < 3 || CORTISOL > 7
-                                ? Colors.red
-                                : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(CORTISOL.toStringAsFixed(2),
+                            style: TextStyle(
+                              color: CORTISOL < 3
+                                  ? Colors.green.shade700
+                                  : CORTISOL > 7
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -729,12 +811,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ACT SURR')),
                     DataCell(
-                      Text(ACTIV_SURR.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: ACTIV_SURR < 2.7 || ACTIV_SURR > 3.3
-                                ? Colors.red
-                                : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(ACTIV_SURR.toStringAsFixed(2),
+                            style: TextStyle(
+                              color: ACTIV_SURR < 2.7
+                                  ? Colors.green.shade700
+                                  : ACTIV_SURR > 3.3
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -780,12 +870,23 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND. SURR')),
                     DataCell(
-                      Text(IND_SURR.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: IND_SURR < 1.2 || IND_SURR > 2
-                                ? Colors.red
-                                : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(IND_SURR.toStringAsFixed(2),
+                            style: TextStyle(
+                              // color: IND_SURR < 1.2 || IND_SURR > 2
+                              //     ? Colors.red
+                              //     : Colors.green,
+                              color: IND_SURR < 1.2
+                                  ? Colors.green.shade700
+                                  : IND_SURR > 2
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -831,12 +932,23 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Aromatisation')),
                     DataCell(
-                      Text(
-                        AROMATISATION.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: AROMATISATION < 0.6 || AROMATISATION > 1.2
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(
+                            8.0), // Adjust the padding as needed
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black), // Add border
+                        ),
+                        child: Text(
+                          AROMATISATION.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: AROMATISATION < 0.6
+                                ? Colors.green.shade700
+                                : AROMATISATION > 1.2
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                            backgroundColor: Colors
+                                .transparent, // Set background color to transparent
+                          ),
                         ),
                       ),
                     ),
@@ -884,12 +996,23 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Permissivité')),
                     DataCell(
-                      Text(PERMISSIVITE.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: PERMISSIVITE < 0.3 || PERMISSIVITE > 0.72
-                                ? Colors.red
-                                : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(PERMISSIVITE.toStringAsFixed(2),
+                            style: TextStyle(
+                              // color: PERMISSIVITE < 0.3 || PERMISSIVITE > 0.72
+                              //     ? Colors.red
+                              //     : Colors.green,
+                              color: PERMISSIVITE < 0.3
+                                  ? Colors.green.shade700
+                                  : PERMISSIVITE > 0.72
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -935,12 +1058,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Sol. Thyr')),
                     DataCell(
-                      Text(SOL_THYR.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: SOL_THYR < 0.09 || SOL_THYR > 0.14
-                                ? Colors.red
-                                : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(SOL_THYR.toStringAsFixed(2),
+                            style: TextStyle(
+                              color: SOL_THYR < 0.09
+                                  ? Colors.green.shade700
+                                  : SOL_THYR > 0.14
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -986,12 +1117,19 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('I.L')),
                     DataCell(
-                      Text(IL.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: IL < 0.1 || IL > 0.16
-                                ? Colors.red
-                                : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black)),
+                        child: Text(IL.toStringAsFixed(2),
+                            style: TextStyle(
+                              color: IL < 0.1
+                                  ? Colors.green.shade700
+                                  : IL > 0.16
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -1035,19 +1173,19 @@ class _PhysiologicalConstantsWidgetState
                         ),
                       ),
                     ),
-                    const DataCell(Text('Structure fn')),
+                    const DataCell(Text('')),
                     DataCell(
-                      Text(STRUCTURE_FN.toString()),
+                      Text(""),
                     ),
                     const DataCell(
                       Text(
-                        'PN + Mono / Eosino x lympho',
+                        '',
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
                     const DataCell(
                       Text(
-                        '0,5-1,5',
+                        '',
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
@@ -1083,13 +1221,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Fraction oestrog.')),
                     DataCell(
-                      Text(FRACTION_OESTROG.toStringAsFixed(2),
-                          style: TextStyle(
-                            color:
-                                FRACTION_OESTROG < 8.5 || FRACTION_OESTROG > 15
-                                    ? Colors.red
-                                    : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(FRACTION_OESTROG.toStringAsFixed(2),
+                            style: TextStyle(
+                              color: FRACTION_OESTROG < 8.5
+                                  ? Colors.green.shade700
+                                  : FRACTION_OESTROG > 15
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -1135,12 +1280,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Rap. Androgène ')),
                     DataCell(
-                      Text(RAP_ANDROGENE.toStringAsFixed(2),
-                          style: TextStyle(
-                            color: RAP_ANDROGENE < 0.05 || RAP_ANDROGENE > 0.09
-                                ? Colors.red
-                                : Colors.green,
-                          )),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(RAP_ANDROGENE.toStringAsFixed(2),
+                            style: TextStyle(
+                              color: RAP_ANDROGENE < 0.05
+                                  ? Colors.green.shade700
+                                  : RAP_ANDROGENE > 0.09
+                                      ? Colors.red.shade700
+                                      : Colors.black,
+                            )),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -1184,12 +1337,21 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Plaq/ lympho')),
                     DataCell(
-                      Text(
-                        PLAQ_LMYPHO.toStringAsFixed(2),
-                        style: TextStyle(
-                            color: PLAQ_LMYPHO < 4 || PLAQ_LMYPHO > 10
-                                ? Colors.red
-                                : Colors.green),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          PLAQ_LMYPHO.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: PLAQ_LMYPHO < 4
+                                ? Colors.green.shade700
+                                : PLAQ_LMYPHO > 10
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
+                        ),
                       ),
                     ),
                     const DataCell(
@@ -1234,11 +1396,22 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Histamine')),
                     DataCell(
-                      Text(HISTAMINE.toStringAsFixed(2),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          HISTAMINE.toStringAsFixed(2),
                           style: TextStyle(
-                              color: HISTAMINE < 20 || HISTAMINE > 70
-                                  ? Colors.red
-                                  : Colors.green)),
+                            color: HISTAMINE < 20
+                                ? Colors.green.shade700
+                                : HISTAMINE > 70
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -1282,11 +1455,22 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('N.I.S')),
                     DataCell(
-                      Text(NIS.toStringAsFixed(2),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          NIS.toStringAsFixed(2),
                           style: TextStyle(
-                              color: NIS < 20 || NIS > 90
-                                  ? Colors.red
-                                  : Colors.green)),
+                            color: NIS < 20
+                                ? Colors.green.shade700
+                                : NIS > 90
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -1330,12 +1514,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('N.I.L')),
                     DataCell(
-                      Text(
-                        NIL.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: NIL < 0.9 || NIL > 1.1
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          NIL.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: NIL < 0.9
+                                ? Colors.green.shade700
+                                : NIL > 1.1
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1379,12 +1571,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('M.L')),
                     DataCell(
-                      Text(
-                        ML.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: ML < 0.85 || ML > 1.15
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          ML.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: ML < 0.85
+                                ? Colors.green.shade700
+                                : ML > 1.15
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1428,12 +1628,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('M.P')),
                     DataCell(
-                      Text(
-                        MP.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: MP < 0.85 || MP > 1.15
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          MP.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: MP < 0.85
+                                ? Colors.green.shade700
+                                : MP > 1.15
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1477,12 +1685,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Starter')),
                     DataCell(
-                      Text(
-                        STARTER.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: STARTER < 0.85 || STARTER > 1.15
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          STARTER.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: STARTER < 0.85
+                                ? Colors.green.shade700
+                                : STARTER > 1.15
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1526,12 +1742,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Tx CATA')),
                     DataCell(
-                      Text(
-                        TX_CATA.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: TX_CATA < 1.3 || TX_CATA > 1.6
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          TX_CATA.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: TX_CATA < 1.3
+                                ? Colors.green.shade700
+                                : TX_CATA > 1.6
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1575,12 +1799,23 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Tx ANA')),
                     DataCell(
-                      Text(
-                        TX_ANA.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: TX_ANA < 0.65 || TX_ANA > 0.8
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          TX_ANA.toStringAsFixed(2),
+                          style: TextStyle(
+                            // color: TX_ANA < 0.65 || TX_ANA > 0.8
+                            //     ? Colors.red
+                            //     : Colors.green,
+                            color: TX_ANA < 0.65
+                                ? Colors.green.shade700
+                                : TX_ANA > 0.8
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1624,13 +1859,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Activité Métabolique')),
                     DataCell(
-                      Text(
-                        ACTIVITE_METABOLIQUE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: ACTIVITE_METABOLIQUE < 80 ||
-                                  ACTIVITE_METABOLIQUE > 100
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          ACTIVITE_METABOLIQUE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: ACTIVITE_METABOLIQUE < 80
+                                ? Colors.green.shade700
+                                : ACTIVITE_METABOLIQUE > 100
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1674,12 +1916,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('LDH/CPK')),
                     DataCell(
-                      Text(
-                        LDH_CPK.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: LDH_CPK < 3.5 || LDH_CPK > 5.5
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          LDH_CPK.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: LDH_CPK < 3.5
+                                ? Colors.green.shade700
+                                : LDH_CPK > 5.5
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1723,12 +1973,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND. Adaptogene ')),
                     DataCell(
-                      Text(
-                        IND_ADAPTOGENE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: IND_ADAPTOGENE < 0.8 || IND_ADAPTOGENE > 0.9
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          IND_ADAPTOGENE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: IND_ADAPTOGENE < 0.8
+                                ? Colors.green.shade700
+                                : IND_ADAPTOGENE > 0.9
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1772,12 +2030,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('B MSH/ A MSH')),
                     DataCell(
-                      Text(
-                        B_MSH_A_MSH.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: B_MSH_A_MSH < 3.2 || B_MSH_A_MSH > 4.5
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          B_MSH_A_MSH.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: B_MSH_A_MSH < 3.2
+                                ? Colors.green.shade700
+                                : B_MSH_A_MSH > 4.5
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1821,12 +2087,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('T3/T4')),
                     DataCell(
-                      Text(
-                        T3_T4.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: T3_T4 < 0.2 || T3_T4 > 0.4
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          T3_T4.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: T3_T4 < 0.2
+                                ? Colors.green.shade700
+                                : T3_T4 > 0.4
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1870,13 +2144,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Histamine potentielle ')),
                     DataCell(
-                      Text(
-                        HISTAMINE_POTENTIELLE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: HISTAMINE_POTENTIELLE < 6 ||
-                                  HISTAMINE_POTENTIELLE > 12
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          HISTAMINE_POTENTIELLE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: HISTAMINE_POTENTIELLE < 6
+                                ? Colors.green.shade700
+                                : HISTAMINE_POTENTIELLE > 12
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -1920,8 +2201,14 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ACTH')),
                     DataCell(
-                      Text(ACTH.toStringAsFixed(2),
-                          style: TextStyle(color: Colors.green)),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(ACTH.toStringAsFixed(2),
+                            style: TextStyle(color: Colors.green)),
+                      ),
                     ),
                     const DataCell(
                       Text(
@@ -1963,12 +2250,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('ALDOSTÉRONE')),
                     DataCell(
-                      Text(
-                        ALDOSTERONE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: ALDOSTERONE < 0.003 || ALDOSTERONE > 0.1
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          ALDOSTERONE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: ALDOSTERONE < 0.003
+                                ? Colors.green.shade700
+                                : ALDOSTERONE > 0.1
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -2012,13 +2307,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Sérotonine périphérique')),
                     DataCell(
-                      Text(
-                        SEROTONINE_PERIPHERIQUE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: SEROTONINE_PERIPHERIQUE < 1.5 ||
-                                  SEROTONINE_PERIPHERIQUE > 7.5
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          SEROTONINE_PERIPHERIQUE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: SEROTONINE_PERIPHERIQUE < 1.5
+                                ? Colors.green.shade700
+                                : SEROTONINE_PERIPHERIQUE > 7.5
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -2089,13 +2391,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Résistance insuline')),
                     DataCell(
-                      Text(
-                        RESISTANCE_INSULINE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: RESISTANCE_INSULINE < 0.3 ||
-                                  RESISTANCE_INSULINE > 5.6
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          RESISTANCE_INSULINE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: RESISTANCE_INSULINE < 0.3
+                                ? Colors.green.shade700
+                                : RESISTANCE_INSULINE > 5.6
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -2139,13 +2448,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Efficacité immune')),
                     DataCell(
-                      Text(
-                        EFFICACITE_IMMUNE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color:
-                              EFFICACITE_IMMUNE < 0.3 || EFFICACITE_IMMUNE > 24
-                                  ? Colors.red
-                                  : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          EFFICACITE_IMMUNE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: EFFICACITE_IMMUNE < 0.3
+                                ? Colors.green.shade700
+                                : EFFICACITE_IMMUNE > 24
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -2189,12 +2505,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Énergie S.I')),
                     DataCell(
-                      Text(
-                        ENERGIE_SI.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: ENERGIE_SI < 0.018 || ENERGIE_SI > 0.24
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          ENERGIE_SI.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: ENERGIE_SI < 0.018
+                                ? Colors.green.shade700
+                                : ENERGIE_SI > 0.24
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -2238,7 +2562,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Congestion')),
                     DataCell(
-                      Text(CONGESTION.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(CONGESTION.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2280,11 +2609,18 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Stress oxydatif')),
                     DataCell(
-                      Text(
-                        STRESS_OXYDATIF.toStringAsFixed(2),
-                        style: TextStyle(
-                          color:
-                              STRESS_OXYDATIF > 300 ? Colors.red : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          STRESS_OXYDATIF.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: STRESS_OXYDATIF > 300
+                                ? Colors.red
+                                : Colors.green,
+                          ),
                         ),
                       ),
                     ),
@@ -2328,12 +2664,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Radicaux libres')),
                     DataCell(
-                      Text(
-                        RADICAUX_LIBRES.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: RADICAUX_LIBRES < 2.4 || RADICAUX_LIBRES > 8.25
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          RADICAUX_LIBRES.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: RADICAUX_LIBRES < 2.4
+                                ? Colors.green.shade700
+                                : RADICAUX_LIBRES > 8.25
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -2377,7 +2721,13 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind. Rendement thyroidien')),
                     DataCell(
-                      Text(IND_RENDEMENT_THYROIDIEN.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(
+                              IND_RENDEMENT_THYROIDIEN.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2419,13 +2769,20 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Activités tissulaires thyroide')),
                     DataCell(
-                      Text(
-                        ACTIVITES_TISSULARIES_THYROIDE.toStringAsFixed(2),
-                        style: TextStyle(
-                          color: ACTIVITES_TISSULARIES_THYROIDE < 1.4 ||
-                                  ACTIVITES_TISSULARIES_THYROIDE > 3.7
-                              ? Colors.red
-                              : Colors.green,
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text(
+                          ACTIVITES_TISSULARIES_THYROIDE.toStringAsFixed(2),
+                          style: TextStyle(
+                            color: ACTIVITES_TISSULARIES_THYROIDE < 1.4
+                                ? Colors.green.shade700
+                                : ACTIVITES_TISSULARIES_THYROIDE > 3.7
+                                    ? Colors.red.shade700
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),
@@ -2469,7 +2826,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND TRH')),
                     DataCell(
-                      Text(IND_TRH.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IND_TRH.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2496,7 +2858,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('IND Implication thyroide')),
                     DataCell(
-                      Text(IND_IMPLICATION_THYROIDE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IND_IMPLICATION_THYROIDE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2523,7 +2890,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Imp. Thyréo somato')),
                     DataCell(
-                      Text(IMP_THYREO_SOMATO.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IMP_THYREO_SOMATO.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2550,7 +2922,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Implic folliculaire')),
                     DataCell(
-                      Text(IMPLIC_FOLLICULAIRE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IMPLIC_FOLLICULAIRE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2577,7 +2954,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind activ metab oestrogene')),
                     DataCell(
-                      Text(IND_ACTIV_METAB_OESTROGENE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IND_ACTIV_METAB_OESTROGENE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2605,7 +2987,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Androgene métabolique')),
                     DataCell(
-                      Text(ANDROGENE_METABOLIQUE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(ANDROGENE_METABOLIQUE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2633,7 +3020,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind activ tissulaire œstrogène')),
                     DataCell(
-                      Text(IND_ACTIV_TISSULAIRE_OESTROGENE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IND_ACTIV_TISSULAIRE_OESTROGENE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2748,7 +3140,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Fract. Métab des œstrogènes')),
                     DataCell(
-                      Text(FRACT_METAB_OESTROGENES.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(FRACT_METAB_OESTROGENES.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2775,7 +3172,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('progestérone')),
                     DataCell(
-                      Text(PROGESTERONE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(PROGESTERONE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2803,7 +3205,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind somatostatine')),
                     DataCell(
-                      Text(IND_SOMATOSTATINE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IND_SOMATOSTATINE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2830,7 +3237,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Ind prolactine')),
                     DataCell(
-                      Text(IND_PROLACTINE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(IND_PROLACTINE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2857,7 +3269,12 @@ class _PhysiologicalConstantsWidgetState
                     ),
                     const DataCell(Text('Fracture membranaire')),
                     DataCell(
-                      Text(FRACTURE_MEMBRANAIRE.toStringAsFixed(2)),
+                      Container(
+                          padding: const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Text(FRACTURE_MEMBRANAIRE.toStringAsFixed(2))),
                     ),
                     const DataCell(
                       Text(
@@ -2869,6 +3286,146 @@ class _PhysiologicalConstantsWidgetState
                     const DataCell(
                       Text(
                         "",
+                      ),
+                    ),
+                  ],
+                ),
+                DataRow(
+                  cells: <DataCell>[
+                    const DataCell(Text('Valeur des lympho')),
+                    DataCell(
+                      SizedBox(
+                        width: 75,
+                        child: Text(lymphoController.text),
+                      ),
+                    ),
+                    const DataCell(Text('Lympho')),
+                    DataCell(
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text((double.parse(lymphoController.text) / 100)
+                            .toStringAsFixed(2)),
+                      ),
+                    ),
+                    const DataCell(
+                      Text(
+                        'En %',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const DataCell(Text('')),
+                    const DataCell(
+                      Text(
+                        ">50%",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+                DataRow(
+                  cells: <DataCell>[
+                    const DataCell(Text('Valeur mono')),
+                    DataCell(
+                      SizedBox(
+                        width: 75,
+                        child: Text(monoController.text),
+                      ),
+                    ),
+                    const DataCell(Text('Mono')),
+                    DataCell(
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text((double.parse(monoController.text) / 100)
+                            .toStringAsFixed(2)),
+                      ),
+                    ),
+                    const DataCell(
+                      Text(
+                        'En %',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const DataCell(Text('')),
+                    const DataCell(
+                      Text(
+                        ">6%",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+                DataRow(
+                  cells: <DataCell>[
+                    const DataCell(Text('Polynucleaire PN')),
+                    DataCell(
+                      SizedBox(
+                        width: 75,
+                        child: Text(pnController.text),
+                      ),
+                    ),
+                    const DataCell(Text('PN')),
+                    DataCell(
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text((double.parse(pnController.text) / 100)
+                            .toStringAsFixed(2)),
+                      ),
+                    ),
+                    const DataCell(
+                      Text(
+                        'En %',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const DataCell(Text('')),
+                    const DataCell(
+                      Text(
+                        ">60%",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
+                ),
+                DataRow(
+                  cells: <DataCell>[
+                    const DataCell(Text('EOSINO')),
+                    DataCell(
+                      SizedBox(
+                        width: 75,
+                        child: Text(eosinoController.text),
+                      ),
+                    ),
+                    const DataCell(Text('EOSINO')),
+                    DataCell(
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: Text((double.parse(eosinoController.text) / 100)
+                            .toStringAsFixed(2)),
+                      ),
+                    ),
+                    const DataCell(
+                      Text(
+                        'En %',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                    const DataCell(Text('')),
+                    const DataCell(
+                      Text(
+                        ">3%",
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
                   ],
